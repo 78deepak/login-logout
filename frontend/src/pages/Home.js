@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { handleerror, handleSuccess } from '../utills';
+import { useLocation } from 'react-router-dom';
+import { AuthContext } from '../AuthContext';
+import  { useContext } from 'react';
 
 function Home() {
+  const { email } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [products, setProducts] = useState([]);
+  const location = useLocation();
+  // const email = location.state?.email; 
   const handleAddPostClick = () => {
     // Navigate to the "Add Post" page
     navigate('/addpost');
+  };
+  const handleAllPost = () => {
+    // Navigate to the "Add Post" page
+    navigate('/allpost', { state: { email: email } });
   };
   useEffect(() => {
     setLoggedInUser(localStorage.getItem('loggedInUser'));
@@ -16,12 +27,13 @@ function Home() {
     fetchProducts();
   }, []);
 
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedInUser');
     handleSuccess('User Logged out');
     setTimeout(() => {
-      navigate('/login');
+      navigate('/login ');
     }, 1000);
   };
 
@@ -42,6 +54,8 @@ function Home() {
     }
   };
 
+  console.log(email)
+
   return (
     <div className='bg-gray-300 min-w-full h-screen flex items-center flex-col justify-center p-3' >
       <div className='bg-blue-500 max-w-full rounded-md shadow-md'>
@@ -61,8 +75,13 @@ function Home() {
       
       </div>
       <div>
-      <button onClick={handleAddPostClick}>Add Post</button>
+      {/* <button onClick={handleAddPostClick}>Add Post</button> */}
       </div>
+      <h1>{email} dee</h1>
+    
+    <div>
+      <button onClick={handleAllPost}>All Posts</button>
+    </div>
     </div>
   );
 }

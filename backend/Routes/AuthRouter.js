@@ -7,4 +7,5 @@ router.post('/login',loginVallidation,login)
 
 router.post('/signup',signupVallidation,signup)
 
+
 module.exports = router;
