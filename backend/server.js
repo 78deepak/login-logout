@@ -29,15 +29,34 @@ app.use('/auth',AuthRouter);
 app.use('/products',ProductRouter);
 app.use('/addPost', AddPostRouter);
 app.use('/upload-img',AddImgRoute);
+// app.use(/)
 // app.use('/AllPost',AllPostRoute);
 
 
+// app.get('/Allpost', async (req, res) => {
+//   const email = req.query.email
+//   try {
+//    const data =  await AddPost.find({ email: email });
+//   //  const postCount = await AddPost.countDocuments({ email: email });
+//     console.log("Data fetched");
+//     res.status(200).json(data);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
+
 app.get('/Allpost', async (req, res) => {
-  const email = req.query.email
+  const email = req.query.email;
   try {
-   const data =  await AddPost.find({ email: email });
+    const data = await AddPost.find({ email: email });
+    const postCount = await AddPost.countDocuments({ email: email });
     console.log("Data fetched");
-    res.status(200).json(data);
+
+    // Send both data and postCount in an object
+    res.status(200).json({ posts: data, postCount: postCount });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
